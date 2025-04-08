@@ -5,10 +5,14 @@ spring:
     password: kameha22
     driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
-    database-platform: org.hibernate.dialect.MySQL8Dialect
+    open-in-view: false
+#    database-platform: org.hibernate.dialect.MySQLDialect
     hibernate:
       ddl-auto: update
     show-sql: true
+#    transaction:
+#      jta:
+#        platform:
 #  security:
 #    user:
 #      name: admin
