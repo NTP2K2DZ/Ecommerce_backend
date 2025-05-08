@@ -1,25 +1,18 @@
 package com.example.backend.dto;
 
-public class CategoryCreationRequest {
-
+public class ProductImageCreationRequest {
     private Long id;
-    private String name;
     private String imageUrl;
 
-    public CategoryCreationRequest() {}
+    public ProductImageCreationRequest() {}
 
-    public CategoryCreationRequest(Long id, String name, String imageUrl) {
+    public ProductImageCreationRequest(Long id, String imageUrl) {
         this.id = id;
-        this.name = name;
         this.imageUrl = imageUrl;
     }
 
     public Long getId() {
         return id;
-    }
-
-    public String getName() {
-        return name;
     }
 
     public String getImageUrl() {
@@ -28,10 +21,6 @@ public class CategoryCreationRequest {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     public void setImageUrl(String imageUrl) {
