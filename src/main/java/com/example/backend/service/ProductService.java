@@ -66,9 +66,9 @@ public class ProductService {
             throw new RuntimeException("Product not found with id " + id);
         }
         // Xoá ảnh trước khi delete product
-        productImageService.deleteAllImagesByProductId(id);
+//        productImageService.deleteAllImagesByProductId(id);
         //Xoá option trước khi delete product
-        productOptionService.deleteAllOptionByProductId(id);
+//        productOptionService.deleteAllOptionByProductId(id);
         productRepository.deleteById(id);
     }
 }
