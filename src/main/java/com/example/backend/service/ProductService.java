@@ -65,10 +65,6 @@ public class ProductService {
         if (!productRepository.existsById(id)) {
             throw new RuntimeException("Product not found with id " + id);
         }
-        // Xoá ảnh trước khi delete product
-//        productImageService.deleteAllImagesByProductId(id);
-        //Xoá option trước khi delete product
-//        productOptionService.deleteAllOptionByProductId(id);
         productRepository.deleteById(id);
     }
 }

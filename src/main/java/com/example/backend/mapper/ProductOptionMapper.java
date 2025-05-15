@@ -1,11 +1,6 @@
 package com.example.backend.mapper;
 
-
-import com.example.backend.dto.CategoryCreationRequest;
-import com.example.backend.dto.ProductCreationRequest;
 import com.example.backend.dto.ProductOptionCreationRequest;
-import com.example.backend.entity.Category;
-import com.example.backend.entity.Product;
 import com.example.backend.entity.ProductOption;
 
 public class ProductOptionMapper {

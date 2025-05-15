@@ -2,6 +2,8 @@ package com.example.backend.entity;
 
 import jakarta.persistence.*;
 
+import java.util.List;
+
 @Entity
 @Table(name = "product_option")
 public class ProductOption {
@@ -14,6 +16,10 @@ public class ProductOption {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "product_id", nullable = false)
     private Product product;
+
+    @OneToMany(mappedBy = "productOption", cascade = CascadeType.ALL)
+    private List<ProductOptionValue> optionValues;
+
 
     public ProductOption() {}
 
