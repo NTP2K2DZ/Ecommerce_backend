@@ -3,7 +3,6 @@ package com.example.backend.service;
 import com.example.backend.dto.ProductOptionValueCreationRequest;
 import com.example.backend.entity.ProductOption;
 import com.example.backend.entity.ProductOptionValue;
-import com.example.backend.mapper.ProductOptionMapper;
 import com.example.backend.mapper.ProductOptionValueMapper;
 import com.example.backend.reponsitory.ProductOptionRepository;
 import com.example.backend.reponsitory.ProductOptionValueRepository;
@@ -63,10 +62,10 @@ public class ProductOptionValueService {
 
         if (dto.getOptionId() != null &&
                 !existing.getProductOption().getId().equals(dto.getOptionId())) {
-
+            // Search new option
             ProductOption newOption = productOptionRepository.findById(dto.getOptionId())
                     .orElseThrow(() -> new RuntimeException("Product option not found with ID: " + dto.getOptionId()));
-
+            // Assign new product option to current option value
             existing.setProductOption(newOption);
         }
 
