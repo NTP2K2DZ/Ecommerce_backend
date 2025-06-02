@@ -20,7 +20,7 @@ public class Product {
 
     private BigDecimal price;
 
-    private int quantity;
+    private Integer quantity;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "category_id", nullable = false)
@@ -34,6 +34,9 @@ public class Product {
 
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
     private List<ProductOption> options;
+
+//    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
+//    private List<ProductVariant> variants;
 
     public Product() {}
 
@@ -70,11 +73,11 @@ public class Product {
         this.price = price;
     }
 
-    public int getQuantity() {
+    public Integer getQuantity() {
         return quantity;
     }
 
-    public void setQuantity(int quantity) {
+    public void setQuantity(Integer quantity) {
         this.quantity = quantity;
     }
 

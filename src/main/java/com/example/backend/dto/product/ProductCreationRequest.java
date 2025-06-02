@@ -1,24 +1,26 @@
-package com.example.backend.dto;
+package com.example.backend.dto.product;
+
+import com.example.backend.dto.product_image.ProductImageCreationRequest;
+import com.example.backend.dto.category.CategoryRequest;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 
 public class ProductCreationRequest {
-    private Long id;
     private String name;
     private String description;
     private BigDecimal price;
-    private int quantity;
+    private Integer quantity;
     private LocalDateTime createdAt;
-    private CategoryCreationRequest category;
-    private List<ProductImageCreationRequest> images;
+    private CategoryRequest category;
+    private List<String> images;
+
 
     public ProductCreationRequest() {}
 
-    public ProductCreationRequest(Long id, String name, String description, BigDecimal price, int quantity,
-                      LocalDateTime createdAt, CategoryCreationRequest category, List<ProductImageCreationRequest> images) {
-        this.id = id;
+    public ProductCreationRequest(String name, String description, BigDecimal price, Integer quantity,
+                      LocalDateTime createdAt, CategoryRequest category, List<String> images) {
         this.name = name;
         this.description = description;
         this.price = price;
@@ -26,14 +28,6 @@ public class ProductCreationRequest {
         this.createdAt = createdAt;
         this.category = category;
         this.images = images;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public String getName() {
@@ -60,11 +54,11 @@ public class ProductCreationRequest {
         this.price = price;
     }
 
-    public int getQuantity() {
+    public Integer getQuantity() {
         return quantity;
     }
 
-    public void setQuantity(int quantity) {
+    public void setQuantity(Integer quantity) {
         this.quantity = quantity;
     }
 
@@ -76,19 +70,19 @@ public class ProductCreationRequest {
         this.createdAt = createdAt;
     }
 
-    public CategoryCreationRequest getCategory() {
+    public CategoryRequest getCategory() {
         return category;
     }
 
-    public void setCategory(CategoryCreationRequest category) {
+    public void setCategory(CategoryRequest category) {
         this.category = category;
     }
 
-    public List<ProductImageCreationRequest> getImages() {
+    public List<String> getImages() {
         return images;
     }
 
-    public void setImages(List<ProductImageCreationRequest> images) {
+    public void setImages(List<String> images) {
         this.images = images;
     }
 }

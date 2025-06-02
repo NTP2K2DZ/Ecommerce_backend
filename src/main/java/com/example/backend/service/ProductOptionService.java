@@ -1,10 +1,8 @@
 package com.example.backend.service;
 
-import com.example.backend.dto.ProductCreationRequest;
-import com.example.backend.dto.ProductOptionCreationRequest;
+import com.example.backend.dto.product_option.ProductOptionCreationRequest;
 import com.example.backend.entity.Product;
 import com.example.backend.entity.ProductOption;
-import com.example.backend.mapper.ProductMapper;
 import com.example.backend.mapper.ProductOptionMapper;
 import com.example.backend.reponsitory.ProductOptionRepository;
 import com.example.backend.reponsitory.ProductRepository;

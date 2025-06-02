@@ -1,6 +1,4 @@
-package com.example.backend.dto;
-
-import com.example.backend.entity.ProductOptionValue;
+package com.example.backend.dto.product_option_value;
 
 public class ProductOptionValueCreationRequest {
     private Long id;

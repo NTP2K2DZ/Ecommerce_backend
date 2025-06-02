@@ -1,6 +1,6 @@
 package com.example.backend.mapper;
 
-import com.example.backend.dto.ProductOptionValueCreationRequest;
+import com.example.backend.dto.product_option_value.ProductOptionValueCreationRequest;
 import com.example.backend.entity.ProductOptionValue;
 
 public class ProductOptionValueMapper {

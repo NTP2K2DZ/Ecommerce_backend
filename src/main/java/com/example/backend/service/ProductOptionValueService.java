@@ -1,6 +1,6 @@
 package com.example.backend.service;
 
-import com.example.backend.dto.ProductOptionValueCreationRequest;
+import com.example.backend.dto.product_option_value.ProductOptionValueCreationRequest;
 import com.example.backend.entity.ProductOption;
 import com.example.backend.entity.ProductOptionValue;
 import com.example.backend.mapper.ProductOptionValueMapper;

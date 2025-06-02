@@ -1,21 +1,14 @@
-package com.example.backend.dto;
+package com.example.backend.dto.category;
 
-public class CategoryCreationRequest {
-
-    private Long id;
+public class CategoryUpdateRequest {
     private String name;
     private String imageUrl;
 
-    public CategoryCreationRequest() {}
+    public CategoryUpdateRequest() {}
 
-    public CategoryCreationRequest(Long id, String name, String imageUrl) {
-        this.id = id;
+    public CategoryUpdateRequest(String name, String imageUrl) {
         this.name = name;
         this.imageUrl = imageUrl;
-    }
-
-    public Long getId() {
-        return id;
     }
 
     public String getName() {
@@ -24,10 +17,6 @@ public class CategoryCreationRequest {
 
     public String getImageUrl() {
         return imageUrl;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public void setName(String name) {

@@ -1,4 +1,4 @@
-package com.example.backend.dto;
+package com.example.backend.dto.product_option;
 
 public class ProductOptionCreationRequest {
     private Long id;

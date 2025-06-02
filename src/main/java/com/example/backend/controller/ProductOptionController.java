@@ -1,10 +1,7 @@
 package com.example.backend.controller;
 
-import com.example.backend.dto.ProductCreationRequest;
-import com.example.backend.dto.ProductOptionCreationRequest;
-import com.example.backend.entity.ProductOption;
+import com.example.backend.dto.product_option.ProductOptionCreationRequest;
 import com.example.backend.service.ProductOptionService;
-import com.example.backend.service.ProductService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
