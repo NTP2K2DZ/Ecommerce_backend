@@ -1,8 +1,6 @@
 package com.example.backend.dto.product;
 
-import com.example.backend.dto.category.CategoryCreationRequest;
-import com.example.backend.dto.category.CategoryRequest;
-import com.example.backend.dto.product_image.ProductImageCreationRequest;
+import com.example.backend.dto.category.CategoryResponse;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -12,13 +10,13 @@ public class ProductUpdateRequest {
     private String description;
     private BigDecimal price;
     private Integer quantity;
-    private CategoryRequest category;
+    private CategoryResponse category;
     private List<String> images;
 
     public  ProductUpdateRequest() {}
 
     public ProductUpdateRequest(String name, String description, BigDecimal price, Integer quantity,
-                                CategoryRequest category, List<String> images) {
+                                CategoryResponse category, List<String> images) {
         this.name = name;
         this.description = description;
         this.price = price;
@@ -59,11 +57,11 @@ public class ProductUpdateRequest {
         this.quantity = quantity;
     }
 
-    public CategoryRequest getCategory() {
+    public CategoryResponse getCategory() {
         return category;
     }
 
-    public void setCategory(CategoryRequest category) {
+    public void setCategory(CategoryResponse category) {
         this.category = category;
     }
 

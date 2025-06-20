@@ -1,5 +1,6 @@
 package com.example.backend.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import java.util.List;
 
@@ -13,13 +14,17 @@ public class Category {
     @Column(nullable = false)
     private String name;
     @Column(nullable = false)
-    private String imageUrl;
+    private String image_url;
+
+    @OneToMany(mappedBy = "category", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
+    private List<Product> products;
 
     public Category() {}
 
-    public Category(String name, String imageUrl) {
+    public Category(String name, String image_url) {
         this.name = name;
-        this.imageUrl = imageUrl;
+        this.image_url = image_url;
     }
 
     // Getters and Setters
@@ -40,10 +45,10 @@ public class Category {
     }
 
     public String getImageUrl() {
-        return imageUrl;
+        return image_url;
     }
 
-    public void setImageUrl(String imageUrl) {
-        this.imageUrl = imageUrl;
+    public void setImageUrl(String image_url) {
+        this.image_url = image_url;
     }
 }

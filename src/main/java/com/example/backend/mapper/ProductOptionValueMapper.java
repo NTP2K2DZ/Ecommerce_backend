@@ -1,24 +1,25 @@
 package com.example.backend.mapper;
 
 import com.example.backend.dto.product_option_value.ProductOptionValueCreationRequest;
+import com.example.backend.dto.product_option_value.ProductOptionValueResponse;
+import com.example.backend.dto.product_option_value.ProductOptionValueUpdateRequest;
+import com.example.backend.entity.ProductOption;
 import com.example.backend.entity.ProductOptionValue;
 
 public class ProductOptionValueMapper {
 
-    // Entity -> DTO
-    public static ProductOptionValueCreationRequest toDTO(ProductOptionValue optionValue) {
-        ProductOptionValueCreationRequest dto = new ProductOptionValueCreationRequest();
-        dto.setId(optionValue.getId());
-        dto.setValue(optionValue.getValue());
-        dto.setOptionId(optionValue.getProductOption().getId());
-        return dto;
+    public static ProductOptionValueResponse toResponseDTO (ProductOptionValue productOptionValue) {
+        return new ProductOptionValueResponse(
+                productOptionValue.getId(),
+                productOptionValue.getValue(),
+                productOptionValue.getProductOption().getId()
+        );
     }
 
-    // DTO -> Entity
-    public static ProductOptionValue toEntity(ProductOptionValueCreationRequest dto) {
+    public static ProductOptionValue toEntityCreate(ProductOptionValueCreationRequest request, ProductOption option) {
         ProductOptionValue optionValue = new ProductOptionValue();
-        optionValue.setId(dto.getId());
-        optionValue.setValue(dto.getValue());
+        optionValue.setValue(request.getValue());
+        optionValue.setProductOption(option);
         return optionValue;
     }
 }

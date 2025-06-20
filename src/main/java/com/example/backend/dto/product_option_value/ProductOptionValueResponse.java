@@ -1,14 +1,24 @@
 package com.example.backend.dto.product_option_value;
 
-public class ProductOptionValueCreationRequest {
+public class ProductOptionValueResponse {
+    private Long id;
     private String value;
     private Long optionId;
 
-    public ProductOptionValueCreationRequest(){}
+    public ProductOptionValueResponse() {};
 
-    public ProductOptionValueCreationRequest(String value, Long optionId) {
+    public ProductOptionValueResponse(Long id, String value, Long optionId) {
+        this.id = id;
         this.value = value;
         this.optionId = optionId;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getValue() {

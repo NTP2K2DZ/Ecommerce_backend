@@ -1,6 +1,8 @@
 package com.example.backend.controller;
 
 import com.example.backend.dto.product_option.ProductOptionCreationRequest;
+import com.example.backend.dto.product_option.ProductOptionResponse;
+import com.example.backend.dto.product_option.ProductOptionUpdateRequest;
 import com.example.backend.service.ProductOptionService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,18 +18,23 @@ public class ProductOptionController {
         this.productOptionService = productOptionService;
     }
     @GetMapping
-    public ResponseEntity<List<ProductOptionCreationRequest>> getAllProductOption() {
+    public ResponseEntity<List<ProductOptionResponse>> getAllProductOption() {
         return ResponseEntity.ok(productOptionService.getAllOptions());
     }
 
-    @PostMapping
-    public ResponseEntity<ProductOptionCreationRequest> createOption(@RequestBody ProductOptionCreationRequest dto) {
-        return ResponseEntity.ok(productOptionService.createOption(dto));
+    @GetMapping("/{id}")
+    public ResponseEntity<ProductOptionResponse> getOptionById(@PathVariable Long id) {
+        return ResponseEntity.ok(productOptionService.getOptionById(id));
     }
 
-    @GetMapping("product/{productId}")
-    public ResponseEntity<List<ProductOptionCreationRequest>> getOptionByProductId(@PathVariable Long productId) {
-        return ResponseEntity.ok(productOptionService.getOptionsByProductId(productId));
+    @PostMapping
+    public ResponseEntity<ProductOptionResponse> createOption(@RequestBody ProductOptionCreationRequest request) {
+        return ResponseEntity.ok(productOptionService.createOption(request));
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<ProductOptionResponse> updateOption(@PathVariable Long id, @RequestBody ProductOptionUpdateRequest request) {
+        return ResponseEntity.ok(productOptionService.updateOption(id, request));
     }
 
     @DeleteMapping("/{id}")

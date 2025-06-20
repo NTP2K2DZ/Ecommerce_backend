@@ -1,24 +1,24 @@
 package com.example.backend.mapper;
 
 import com.example.backend.dto.product_option.ProductOptionCreationRequest;
+import com.example.backend.dto.product_option.ProductOptionResponse;
+import com.example.backend.entity.Product;
 import com.example.backend.entity.ProductOption;
 
 public class ProductOptionMapper {
 
-    // Entity -> DTO
-    public static ProductOptionCreationRequest toDTO(ProductOption option) {
-        ProductOptionCreationRequest dto = new ProductOptionCreationRequest();
-        dto.setId(option.getId());
-        dto.setName(option.getName());
-        dto.setProductId(option.getProduct().getId());
-        return dto;
+    public static ProductOptionResponse toResponseDTO(ProductOption productOption) {
+        return new ProductOptionResponse(
+                productOption.getId(),
+                productOption.getName(),
+                productOption.getProduct().getId()
+        );
     }
 
-    // DTO -> Entity
-    public static ProductOption toEntity(ProductOptionCreationRequest dto) {
+    public static ProductOption toEntityCreate(ProductOptionCreationRequest dto, Product product) {
         ProductOption option = new ProductOption();
-        option.setId(dto.getId());
         option.setName(dto.getName());
+        option.setProduct(product);
         return option;
     }
 }

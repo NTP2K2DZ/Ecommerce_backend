@@ -1,16 +1,16 @@
 package com.example.backend.dto.category;
 
-public class CategoryRequest {
+public class CategoryResponse {
     private Long id;
     private String name;
-    private String imageUrl;
+    private String image_url;
 
-    public CategoryRequest() {}
+    public CategoryResponse() {}
 
-    public CategoryRequest(Long id, String name, String imageUrl) {
+    public CategoryResponse(Long id, String name, String image_url) {
         this.id = id;
         this.name = name;
-        this.imageUrl = imageUrl;
+        this.image_url = image_url;
     }
 
     public Long getId() {
@@ -22,7 +22,7 @@ public class CategoryRequest {
     }
 
     public String getImageUrl() {
-        return imageUrl;
+        return image_url;
     }
 
     public void setId(Long id) {
@@ -34,6 +34,6 @@ public class CategoryRequest {
     }
 
     public void setImageUrl(String imageUrl) {
-        this.imageUrl = imageUrl;
+        this.image_url = image_url;
     }
 }

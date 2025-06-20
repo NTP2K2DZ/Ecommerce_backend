@@ -1,6 +1,7 @@
 package com.example.backend.controller;
 
 import com.example.backend.dto.product_option_value.ProductOptionValueCreationRequest;
+import com.example.backend.dto.product_option_value.ProductOptionValueResponse;
 import com.example.backend.service.ProductOptionValueService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,28 +19,31 @@ public class ProductOptionValueController {
     }
 
     @GetMapping
-    public ResponseEntity<List<ProductOptionValueCreationRequest>> getAllOptionValue() {
+    public ResponseEntity<List<ProductOptionValueResponse>> getAllOptionValue() {
         return ResponseEntity.ok(productOptionValueService.getAllOptionValues());
     }
 
-    @GetMapping("/{optionId}")
-    public ResponseEntity<List<ProductOptionValueCreationRequest>> getOptionValuesByOptionId(@PathVariable Long optionId) {
-        return ResponseEntity.ok(productOptionValueService.getOptionValuesByOptionId(optionId));
+    @GetMapping("/{id}")
+    public ResponseEntity<ProductOptionValueResponse> getValueById(Long id) {
+        return  ResponseEntity.ok(productOptionValueService.getValueById(id));
     }
+
+//    @GetMapping("/{optionId}")
+//    public ResponseEntity<List<ProductOptionValueResponse>> getOptionValuesByOptionId(@PathVariable Long optionId) {
+//        return ResponseEntity.ok(productOptionValueService.getOptionValuesByOptionId(optionId));
+//    }
+
 
     @PostMapping
-    public ResponseEntity<ProductOptionValueCreationRequest> createOptionValue(@RequestBody ProductOptionValueCreationRequest request) {
-        ProductOptionValueCreationRequest created = productOptionValueService.createOptionValue(request);
-        return  ResponseEntity.ok(created);
+    public ResponseEntity<ProductOptionValueResponse> createOptionValue(
+            @RequestBody ProductOptionValueCreationRequest request) {
+
+        ProductOptionValueResponse created = productOptionValueService.createOptionValue(request);
+        return ResponseEntity.ok(created);
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<ProductOptionValueCreationRequest> updateOptionValue(@PathVariable Long id, @RequestBody ProductOptionValueCreationRequest request) {
-        ProductOptionValueCreationRequest updated = productOptionValueService.updateOptionValue(id, request);
-        return ResponseEntity.ok(updated);
-    }
 
-    @DeleteMapping("{id}")
+    @DeleteMapping("/{id}")
     public  ResponseEntity<Void> deleteOptionValue(@PathVariable Long id) {
         productOptionValueService.deleteOptionValue(id);
         return ResponseEntity.noContent().build();

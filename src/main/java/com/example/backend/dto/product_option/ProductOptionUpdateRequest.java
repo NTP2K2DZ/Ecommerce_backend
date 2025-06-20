@@ -1,12 +1,12 @@
 package com.example.backend.dto.product_option;
 
-public class ProductOptionCreationRequest {
+public class ProductOptionUpdateRequest {
     private String name;
     private Long productId;
 
-    public ProductOptionCreationRequest() {}
+    public ProductOptionUpdateRequest() {}
 
-    public ProductOptionCreationRequest(String name, Long productId) {
+    public ProductOptionUpdateRequest(String name, Long productId) {
         this.name = name;
         this.productId = productId;
     }

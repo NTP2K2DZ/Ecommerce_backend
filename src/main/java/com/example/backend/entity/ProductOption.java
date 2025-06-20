@@ -17,9 +17,10 @@ public class ProductOption {
     @JoinColumn(name = "product_id", nullable = false)
     private Product product;
 
-    @OneToMany(mappedBy = "productOption", cascade = CascadeType.ALL)
-    private List<ProductOptionValue> optionValues;
 
+
+    @OneToMany(mappedBy = "option", cascade = CascadeType.ALL)
+    private List<ProductOptionValue> optionValues;
 
     public ProductOption() {}
 

@@ -1,7 +1,6 @@
 package com.example.backend.dto.product;
 
-import com.example.backend.dto.product_image.ProductImageCreationRequest;
-import com.example.backend.dto.category.CategoryRequest;
+import com.example.backend.dto.category.CategoryResponse;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -13,14 +12,14 @@ public class ProductCreationRequest {
     private BigDecimal price;
     private Integer quantity;
     private LocalDateTime createdAt;
-    private CategoryRequest category;
+    private CategoryResponse category;
     private List<String> images;
 
 
     public ProductCreationRequest() {}
 
     public ProductCreationRequest(String name, String description, BigDecimal price, Integer quantity,
-                      LocalDateTime createdAt, CategoryRequest category, List<String> images) {
+                                  LocalDateTime createdAt, CategoryResponse category, List<String> images) {
         this.name = name;
         this.description = description;
         this.price = price;
@@ -70,11 +69,11 @@ public class ProductCreationRequest {
         this.createdAt = createdAt;
     }
 
-    public CategoryRequest getCategory() {
+    public CategoryResponse getCategory() {
         return category;
     }
 
-    public void setCategory(CategoryRequest category) {
+    public void setCategory(CategoryResponse category) {
         this.category = category;
     }
 

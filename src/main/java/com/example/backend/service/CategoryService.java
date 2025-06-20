@@ -7,6 +7,7 @@ import com.example.backend.entity.Product;
 import com.example.backend.exception.ResourceNotFoundException;
 import com.example.backend.reponsitory.CategoryRepository;
 import com.example.backend.reponsitory.ProductRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -48,13 +49,11 @@ public class CategoryService {
         return categoryRepository.save(existingCategory);
     }
 
+    @Transactional
     public void deleteCategory(Long id) {
         if (!categoryRepository.existsById(id)) {
             throw new ResourceNotFoundException("Category not found with id: " + id);
         }
-
-        List<Product> products = productRepository.findByCategoryId(id);
-        productRepository.deleteAll(products);
         categoryRepository.deleteById(id);
     }
 }

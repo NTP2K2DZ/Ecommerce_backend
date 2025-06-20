@@ -32,11 +32,8 @@ public class Product {
     @Column(name = "created_at", nullable = false, updatable = false)
     private LocalDateTime createdAt = LocalDateTime.now();
 
-    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ProductOption> options;
-
-//    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
-//    private List<ProductVariant> variants;
 
     public Product() {}
 

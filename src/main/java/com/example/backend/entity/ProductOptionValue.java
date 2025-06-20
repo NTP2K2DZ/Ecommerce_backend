@@ -15,16 +15,16 @@ public class ProductOptionValue {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "option_id", nullable = false)
-    private ProductOption productOption;
+    private ProductOption option;
 
-//    @OneToMany(mappedBy = "optionValue", cascade = CascadeType.ALL, orphanRemoval = true)
-//    private List<ProductVariantOptionValue> variantValues = new ArrayList<>();
+    @OneToMany(mappedBy = "optionValue", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ProductVariantOptionValue> variantOptionValues = new ArrayList<>();
 
     public ProductOptionValue(){}
 
-    public ProductOptionValue(String value, ProductOption productOption) {
+    public ProductOptionValue(String value, ProductOption option) {
         this.value = value;
-        this.productOption = productOption;
+        this.option = option;
     }
 
     public Long getId() {
@@ -36,11 +36,11 @@ public class ProductOptionValue {
     }
 
     public ProductOption getProductOption() {
-        return productOption;
+        return option;
     }
 
-    public void setProductOption(ProductOption productOption) {
-        this.productOption = productOption;
+    public void setProductOption(ProductOption option) {
+        this.option = option;
     }
 
     public String getValue() {
@@ -50,12 +50,19 @@ public class ProductOptionValue {
     public void setValue(String value) {
         this.value = value;
     }
+    public ProductOption getOption() {
+        return option;
+    }
 
-//    public List<ProductVariantOptionValue> getVariantValues() {
-//        return variantValues;
-//    }
-//
-//    public void setVariantValues(List<ProductVariantOptionValue> variantValues) {
-//        this.variantValues = variantValues;
-//    }
+    public void setOption(ProductOption option) {
+        this.option = option;
+    }
+
+    public List<ProductVariantOptionValue> getVariantOptionValues() {
+        return variantOptionValues;
+    }
+
+    public void setVariantOptionValues(List<ProductVariantOptionValue> variantOptionValues) {
+        this.variantOptionValues = variantOptionValues;
+    }
 }

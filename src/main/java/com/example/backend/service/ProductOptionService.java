@@ -1,8 +1,11 @@
 package com.example.backend.service;
 
 import com.example.backend.dto.product_option.ProductOptionCreationRequest;
+import com.example.backend.dto.product_option.ProductOptionResponse;
+import com.example.backend.dto.product_option.ProductOptionUpdateRequest;
 import com.example.backend.entity.Product;
 import com.example.backend.entity.ProductOption;
+import com.example.backend.exception.ResourceNotFoundException;
 import com.example.backend.mapper.ProductOptionMapper;
 import com.example.backend.reponsitory.ProductOptionRepository;
 import com.example.backend.reponsitory.ProductRepository;
@@ -21,39 +24,52 @@ public class ProductOptionService {
         this.productRepository = productRepository;
     }
 
-    public List<ProductOptionCreationRequest> getAllOptions() {
+    public List<ProductOptionResponse> getAllOptions() {
         return productOptionRepository.findAll().stream()
-                .map(ProductOptionMapper::toDTO)
+                .map(ProductOptionMapper::toResponseDTO)
                 .collect(Collectors.toList());
     }
 
-    public ProductOptionCreationRequest createOption(ProductOptionCreationRequest dto) {
-        // Lấy product từ DB
-        Product product = productRepository.findById(dto.getProductId())
-                .orElseThrow(() -> new RuntimeException("Product not found with id " + dto.getProductId()));
+    public ProductOptionResponse getOptionById(Long id) {
+        ProductOption option = productOptionRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Option not found with id " + id));
+        return ProductOptionMapper.toResponseDTO(option);
+    }
 
-        // Map DTO -> Entity
-        ProductOption option = ProductOptionMapper.toEntity(dto);
-        option.setProduct(product);
+    public ProductOptionResponse createOption(ProductOptionCreationRequest request) {
+        Long productId = request.getProductId();
 
+        Product product = productRepository.findById(productId)
+                .orElseThrow(() -> new ResourceNotFoundException("Product not found with id " + productId));
+
+        ProductOption option = ProductOptionMapper.toEntityCreate(request, product);
         ProductOption saved = productOptionRepository.save(option);
 
-        return ProductOptionMapper.toDTO(saved);
+        return ProductOptionMapper.toResponseDTO(saved);
     }
 
-    public List<ProductOptionCreationRequest> getOptionsByProductId(Long productId) {
-        List<ProductOption> options = productOptionRepository.findByProductId(productId);
-        return options.stream()
-                .map(ProductOptionMapper::toDTO)
-                .collect(Collectors.toList());
-    }
+    public ProductOptionResponse updateOption(Long id, ProductOptionUpdateRequest request) {
+        ProductOption option = productOptionRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Option not found with id " + id));
 
-    public void deleteAllOptionByProductId(Long productId) {
-        List<ProductOption> options = productOptionRepository.findByProductId(productId);
-        productOptionRepository.deleteAll(options);
+        if (request.getName() != null && !request.getName().equals(option.getName())) {
+            option.setName(request.getName());
+        }
+
+        if (request.getProductId() != null && !request.getProductId().equals(option.getProduct().getId())) {
+            Product newProduct = productRepository.findById(request.getProductId())
+                    .orElseThrow(() -> new ResourceNotFoundException("Product not found with id " + request.getProductId()));
+            option.setProduct(newProduct);
+        }
+
+        ProductOption updated = productOptionRepository.save(option);
+        return ProductOptionMapper.toResponseDTO(updated);
     }
 
     public void deleteOption(Long id) {
+        if (!productOptionRepository.existsById(id)) {
+            throw new ResourceNotFoundException("Option not found with id " + id);
+        }
         productOptionRepository.deleteById(id);
     }
 }

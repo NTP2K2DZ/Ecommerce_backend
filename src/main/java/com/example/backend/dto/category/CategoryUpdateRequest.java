@@ -2,13 +2,13 @@ package com.example.backend.dto.category;
 
 public class CategoryUpdateRequest {
     private String name;
-    private String imageUrl;
+    private String image_url;
 
     public CategoryUpdateRequest() {}
 
-    public CategoryUpdateRequest(String name, String imageUrl) {
+    public CategoryUpdateRequest(String name, String image_url) {
         this.name = name;
-        this.imageUrl = imageUrl;
+        this.image_url = image_url;
     }
 
     public String getName() {
@@ -16,7 +16,7 @@ public class CategoryUpdateRequest {
     }
 
     public String getImageUrl() {
-        return imageUrl;
+        return image_url;
     }
 
     public void setName(String name) {
@@ -24,6 +24,6 @@ public class CategoryUpdateRequest {
     }
 
     public void setImageUrl(String imageUrl) {
-        this.imageUrl = imageUrl;
+        this.image_url = image_url;
     }
 }
