@@ -26,7 +26,7 @@ public class ProductVariantController {
         return ResponseEntity.ok(response);
     }
 
-    @GetMapping("/{productId}/product")
+    @GetMapping("/by-product/{productId}")
     public ResponseEntity<List<ProductVariantResponse>> getVariantsByProductId(@PathVariable Long productId) {
         List<ProductVariantResponse> response = productVariantService.getVariantsByProductId(productId);
         return ResponseEntity.ok(response);

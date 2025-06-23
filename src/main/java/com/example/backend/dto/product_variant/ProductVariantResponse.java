@@ -5,10 +5,10 @@ import java.util.List;
 
 public class ProductVariantResponse {
     private Long id;
-    private String slug;
+    private String sku;
     private BigDecimal price;
     private Integer quantity;
-    private List<String> image_url;
+    private List<String> images;
     private List<OptionValueDTO> optionValues;
 
     public static class OptionValueDTO {
@@ -51,12 +51,12 @@ public class ProductVariantResponse {
 
     public ProductVariantResponse() {}
 
-    public ProductVariantResponse(Long id, String slug, BigDecimal price, Integer quantity, List<String> image_url, List<OptionValueDTO> optionValues) {
+    public ProductVariantResponse(Long id, BigDecimal price, Integer quantity, String sku, List<String> images, List<OptionValueDTO> optionValues) {
         this.id = id;
-        this.slug = slug;
         this.price = price;
         this.quantity = quantity;
-        this.image_url = image_url;
+        this.sku = sku;
+        this.images = images;
         this.optionValues = optionValues;
     }
 
@@ -66,14 +66,6 @@ public class ProductVariantResponse {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public String getSlug() {
-        return slug;
-    }
-
-    public void setSlug(String slug) {
-        this.slug = slug;
     }
 
     public BigDecimal getPrice() {
@@ -92,12 +84,20 @@ public class ProductVariantResponse {
         this.quantity = quantity;
     }
 
-    public List<String> getImageUrl() {
-        return image_url;
+    public String getSku() {
+        return sku;
     }
 
-    public void setImageUrl(List<String> image_url) {
-        this.image_url = image_url;
+    public void setSku(String sku) {
+        this.sku = sku;
+    }
+
+    public List<String> getImages() {
+        return images;
+    }
+
+    public void setImages(List<String> images) {
+        this.images = images;
     }
 
     public List<OptionValueDTO> getOptionValues() {

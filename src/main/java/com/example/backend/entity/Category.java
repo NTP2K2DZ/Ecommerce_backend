@@ -15,6 +15,8 @@ public class Category {
     private String name;
     @Column(nullable = false)
     private String image_url;
+    @Column(unique = true, nullable = false, length = 255)
+    private String slug;
 
     @OneToMany(mappedBy = "category", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnore
@@ -22,12 +24,12 @@ public class Category {
 
     public Category() {}
 
-    public Category(String name, String image_url) {
+    public Category(String name, String image_url, String slug) {
         this.name = name;
         this.image_url = image_url;
+        this.slug =slug;
     }
 
-    // Getters and Setters
     public Long getId() {
         return id;
     }
@@ -50,5 +52,21 @@ public class Category {
 
     public void setImageUrl(String image_url) {
         this.image_url = image_url;
+    }
+
+    public List<Product> getProducts() {
+        return products;
+    }
+
+    public void setProducts(List<Product> products) {
+        this.products = products;
+    }
+
+    public String getSlug() {
+        return slug;
+    }
+
+    public void setSlug(String slug) {
+        this.slug = slug;
     }
 }

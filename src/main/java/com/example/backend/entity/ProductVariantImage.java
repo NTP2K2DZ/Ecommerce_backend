@@ -3,7 +3,7 @@ package com.example.backend.entity;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "product_variant_image")
+@Table(name = "product_variant_images")
 public class ProductVariantImage {
 
     @Id
@@ -24,7 +24,6 @@ public class ProductVariantImage {
         this.variant = variant;
     }
 
-    // Getters and Setters
     public Long getId() {
         return id;
     }

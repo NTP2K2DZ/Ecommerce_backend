@@ -1,34 +1,29 @@
 package com.example.backend.dto.product;
 
-import com.example.backend.dto.category.CategoryResponse;
-
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
 import java.util.List;
 
 public class ProductCreationRequest {
     private String name;
     private String description;
     private BigDecimal price;
-    private Integer quantity;
-    private LocalDateTime createdAt;
-    private CategoryResponse category;
+    private Long categoryId;
+    private Long brandId;
     private List<String> images;
-
 
     public ProductCreationRequest() {}
 
-    public ProductCreationRequest(String name, String description, BigDecimal price, Integer quantity,
-                                  LocalDateTime createdAt, CategoryResponse category, List<String> images) {
+    public ProductCreationRequest(String name, String description, BigDecimal price,
+                                  Long categoryId, Long brandId, List<String> images) {
         this.name = name;
         this.description = description;
         this.price = price;
-        this.quantity = quantity;
-        this.createdAt = createdAt;
-        this.category = category;
+        this.categoryId = categoryId;
+        this.brandId = brandId;
         this.images = images;
     }
 
+    // Getters & Setters
     public String getName() {
         return name;
     }
@@ -53,28 +48,20 @@ public class ProductCreationRequest {
         this.price = price;
     }
 
-    public Integer getQuantity() {
-        return quantity;
+    public Long getCategoryId() {
+        return categoryId;
     }
 
-    public void setQuantity(Integer quantity) {
-        this.quantity = quantity;
+    public void setCategoryId(Long categoryId) {
+        this.categoryId = categoryId;
     }
 
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
+    public Long getBrandId() {
+        return brandId;
     }
 
-    public void setCreatedAt(LocalDateTime createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public CategoryResponse getCategory() {
-        return category;
-    }
-
-    public void setCategory(CategoryResponse category) {
-        this.category = category;
+    public void setBrandId(Long brandId) {
+        this.brandId = brandId;
     }
 
     public List<String> getImages() {

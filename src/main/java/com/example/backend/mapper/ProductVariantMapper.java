@@ -14,17 +14,21 @@ public class ProductVariantMapper {
     public static ProductVariantResponse toResponseDTO(ProductVariant variant) {
         return new ProductVariantResponse(
                 variant.getId(),
-                variant.getSlug(),
                 variant.getPrice(),
                 variant.getQuantity(),
+                variant.getSku(),
                 toImageUrlList(variant.getImages()),
                 toOptionValueDTOList(variant.getOptionValues())
         );
     }
 
     public static List<String> toImageUrlList(List<ProductVariantImage> images) {
-        if (images == null) return List.of();
-        return images.stream().map(ProductVariantImage::getImageUrl).toList();
+        if (images == null) {
+            return List.of();
+        }
+        return images.stream()
+                .map(ProductVariantImage::getImageUrl)
+                .toList();
     }
 
     public static List<OptionValueDTO> toOptionValueDTOList(List<ProductVariantOptionValue> optionValues) {
@@ -42,7 +46,7 @@ public class ProductVariantMapper {
 
     public static ProductVariant toEntityCreate(ProductVariantCreationRequest request, Product product) {
         ProductVariant variant = new ProductVariant();
-        variant.setSlug(request.getSlug());
+        variant.setSku(request.getSku());
         variant.setPrice(request.getPrice());
         variant.setQuantity(request.getQuantity());
         variant.setProduct(product);

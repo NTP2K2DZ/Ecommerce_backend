@@ -6,24 +6,28 @@ import java.util.List;
 public class ProductResponse {
     private Long id;
     private String name;
+    private String slug;
     private String description;
     private BigDecimal price;
-    private Integer quantity;
     private String categoryName;
+    private String brandName;
     private List<String> images;
 
     public ProductResponse() {}
 
-    public ProductResponse(Long id, String name, String description, BigDecimal price, Integer quantity,
-                           String categoryName, List<String> images) {
+    public ProductResponse(Long id, String name, String slug, String description, BigDecimal price,
+                           String categoryName, String brandName, List<String> images) {
         this.id = id;
         this.name = name;
+        this.slug = slug;
         this.description = description;
         this.price = price;
-        this.quantity = quantity;
         this.categoryName = categoryName;
+        this.brandName = brandName;
         this.images = images;
     }
+
+    // Getters & Setters
 
     public Long getId() {
         return id;
@@ -39,6 +43,14 @@ public class ProductResponse {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getSlug() {
+        return slug;
+    }
+
+    public void setSlug(String slug) {
+        this.slug = slug;
     }
 
     public String getDescription() {
@@ -57,20 +69,20 @@ public class ProductResponse {
         this.price = price;
     }
 
-    public Integer getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(Integer quantity) {
-        this.quantity = quantity;
-    }
-
     public String getCategoryName() {
         return categoryName;
     }
 
     public void setCategoryName(String categoryName) {
         this.categoryName = categoryName;
+    }
+
+    public String getBrandName() {
+        return brandName;
+    }
+
+    public void setBrandName(String brandName) {
+        this.brandName = brandName;
     }
 
     public List<String> getImages() {

@@ -19,14 +19,25 @@ public class ProductController {
         this.productService = productService;
     }
 
-    @GetMapping
-    public ResponseEntity<List<ProductResponse>> getAllProducts(
-            @RequestParam(required = false) Long categoryId) {
-        if (categoryId != null) {
-            return ResponseEntity.ok(productService.getProductsByCategoryId(categoryId));
-        }
-        return ResponseEntity.ok(productService.getAllProducts());
-    }
+//    @GetMapping
+//    public ResponseEntity<List<ProductResponse>> getAllProducts(
+//            @RequestParam(required = false) Long categoryId,
+//            @RequestParam(required = false) Long brandId) {
+//
+//        if (categoryId != null && brandId != null) {
+//            return ResponseEntity.ok(productService.getProductsByCategoryAndBrand(categoryId, brandId));
+//        }
+//
+//        if (categoryId != null) {
+//            return ResponseEntity.ok(productService.getProductsByCategoryId(categoryId));
+//        }
+//
+//        if (brandId != null) {
+//            return ResponseEntity.ok(productService.getProductsByBrandId(brandId));
+//        }
+//
+//        return ResponseEntity.ok(productService.getAllProducts());
+//    }
 
     @GetMapping("/{id}")
     public ResponseEntity<ProductResponse> getProductById(@PathVariable Long id) {

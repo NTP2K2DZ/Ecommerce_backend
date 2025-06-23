@@ -3,13 +3,17 @@ package com.example.backend.service;
 import com.example.backend.dto.product.ProductCreationRequest;
 import com.example.backend.dto.product.ProductUpdateRequest;
 import com.example.backend.dto.product.ProductResponse;
+import com.example.backend.entity.Brand;
 import com.example.backend.entity.Category;
 import com.example.backend.entity.Product;
 import com.example.backend.entity.ProductImage;
+import com.example.backend.exception.BadRequestException;
 import com.example.backend.exception.ResourceNotFoundException;
 import com.example.backend.mapper.ProductMapper;
+import com.example.backend.reponsitory.BrandRepository;
 import com.example.backend.reponsitory.CategoryRepository;
 import com.example.backend.reponsitory.ProductRepository;
+import com.example.backend.util.SlugUtil;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
@@ -21,10 +25,12 @@ public class ProductService {
 
     private final ProductRepository productRepository;
     private final CategoryRepository categoryRepository;
+    private final BrandRepository brandRepository;
 
-    public ProductService(ProductRepository productRepository, CategoryRepository categoryRepository) {
+    public ProductService(ProductRepository productRepository, CategoryRepository categoryRepository, BrandRepository brandRepository) {
         this.productRepository = productRepository;
         this.categoryRepository = categoryRepository;
+        this.brandRepository = brandRepository;
     }
 
     public List<ProductResponse> getAllProducts() {
@@ -47,12 +53,30 @@ public class ProductService {
         return ProductMapper.toResponseList(products);
     }
 
+    public List<ProductResponse> getProductsByBrandId(Long brandId) {
+        Brand brand = brandRepository.findById(brandId)
+                .orElseThrow(() -> new ResourceNotFoundException("Brand not found with id " + brandId));
+        List<Product> products = productRepository.findByBrandId(brandId);
+        return ProductMapper.toResponseList(products);
+    }
+
+    @Transactional
     public ProductResponse createProduct(ProductCreationRequest request) {
-        Long categoryId = request.getCategory().getId();
+        Long categoryId = request.getCategoryId();
         Category category = categoryRepository.findById(categoryId)
                 .orElseThrow(() -> new ResourceNotFoundException("Category not found with id " + categoryId));
 
-        Product product = ProductMapper.toEntityCreate(request, category);
+        Long brandId = request.getBrandId();
+        Brand brand = brandRepository.findById(brandId)
+                .orElseThrow(() -> new ResourceNotFoundException("Brand not found with id " + brandId));
+
+        String slug = SlugUtil.toProductSlug(request.getName());
+        if (productRepository.existsBySlug(slug)) {
+            throw new BadRequestException("Slug already exists: " + slug);
+        }
+
+        Product product = ProductMapper.toEntityCreate(request, category, brand);
+        product.setSlug(slug);
 
         if (request.getImages() != null) {
             List<ProductImage> images = request.getImages().stream()
@@ -71,7 +95,12 @@ public class ProductService {
                 .orElseThrow(() -> new ResourceNotFoundException("Product not found with id " + id));
 
         if (request.getName() != null && !request.getName().equals(product.getName())) {
+            String newSlug = SlugUtil.toProductSlug(request.getName());
+            if (productRepository.existsBySlug(newSlug) && !Objects.equals(product.getSlug(), newSlug)) {
+                throw new BadRequestException("Slug already exists: " + newSlug);
+            }
             product.setName(request.getName());
+            product.setSlug(newSlug);
         }
 
         if (request.getDescription() != null && !request.getDescription().equals(product.getDescription())) {
@@ -82,18 +111,25 @@ public class ProductService {
             product.setPrice(request.getPrice());
         }
 
-        if (request.getQuantity() != null && !request.getQuantity().equals(product.getQuantity())) {
-            product.setQuantity(request.getQuantity());
-        }
-
-        if (request.getCategory() != null && request.getCategory().getId() != null) {
-            Long newCategoryId = request.getCategory().getId();
+        if (request.getCategoryId() != null) {
+            Long newCategoryId = request.getCategoryId();
             Long currentCategoryId = product.getCategory() != null ? product.getCategory().getId() : null;
 
             if (!Objects.equals(newCategoryId, currentCategoryId)) {
                 Category newCategory = categoryRepository.findById(newCategoryId)
                         .orElseThrow(() -> new ResourceNotFoundException("Category not found with id " + newCategoryId));
                 product.setCategory(newCategory);
+            }
+        }
+
+        if (request.getBrandId() != null) {
+            Long newBrandId = request.getBrandId();
+            Long currentBrandId = product.getBrand() != null ? product.getBrand().getId() : null;
+
+            if (!Objects.equals(newBrandId, currentBrandId)) {
+                Brand newBrand = brandRepository.findById(newBrandId)
+                        .orElseThrow(() -> new ResourceNotFoundException("Brand not found with id " + newBrandId));
+                product.setBrand(newBrand);
             }
         }
 

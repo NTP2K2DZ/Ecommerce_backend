@@ -4,6 +4,7 @@ import com.example.backend.dto.product_variant.ProductVariantCreationRequest;
 import com.example.backend.dto.product_variant.ProductVariantResponse;
 import com.example.backend.dto.product_variant.ProductVariantUpdateRequest;
 import com.example.backend.entity.*;
+import com.example.backend.exception.BadRequestException;
 import com.example.backend.exception.ResourceNotFoundException;
 import com.example.backend.mapper.ProductVariantMapper;
 import com.example.backend.reponsitory.ProductOptionValueRepository;
@@ -50,39 +51,40 @@ public class ProductVariantService {
 
     @Transactional
     public ProductVariantResponse createVariant(ProductVariantCreationRequest request) {
-        // Find product
         Long productId = request.getProductId();
         Product product = productRepository.findById(productId)
                 .orElseThrow(() -> new ResourceNotFoundException("Product not found with id " + productId));
 
-        // Get option values from ID
-        List<ProductOptionValue> optionValues = productOptionValueRepository.findAllById(request.getOptionValueIds());
+        if (productVariantRepository.existsBySku(request.getSku())) {
+            throw new BadRequestException("SKU already exists: " + request.getSku());
+        }
 
-        // create variant
+        List<Long> optionValueIds = request.getOptionValueIds() != null ? request.getOptionValueIds() : List.of();
+        List<ProductOptionValue> optionValues = productOptionValueRepository.findAllById(optionValueIds);
+        if (optionValues.size() != optionValueIds.size()) {
+            throw new ResourceNotFoundException("Some option value IDs are invalid");
+        }
+
         ProductVariant variant = ProductVariantMapper.toEntityCreate(request, product);
 
-        // Handle image
-        if (request.getImageUrl() != null) {
-            List<ProductVariantImage> images = request.getImageUrl().stream().map(url -> {
-                ProductVariantImage image = new ProductVariantImage();
-                image.setImageUrl(url);
-                image.setVariant(variant);
-                return image;
-            }).collect(Collectors.toList());
+        if (request.getImages() != null) {
+            List<ProductVariantImage> images = request.getImages().stream()
+                    .map(url -> new ProductVariantImage(url, variant))
+                    .collect(Collectors.toList());
             variant.setImages(images);
         }
 
         List<ProductVariantOptionValue> variantOptionValues = optionValues.stream().map(optionValue -> {
-            ProductVariantOptionValue productVariantOptionValue = new ProductVariantOptionValue();
-            productVariantOptionValue.setOptionValue(optionValue);
-            productVariantOptionValue.setVariant(variant);
-            return productVariantOptionValue;
+            ProductVariantOptionValue pvov = new ProductVariantOptionValue();
+            pvov.setOptionValue(optionValue);
+            pvov.setVariant(variant);
+            return pvov;
         }).collect(Collectors.toList());
         variant.setOptionValues(variantOptionValues);
 
-        // Lưu vào DB
-        ProductVariant saved = productVariantRepository.save(variant);
-        return ProductVariantMapper.toResponseDTO(saved);
+        ProductVariant savedVariant = productVariantRepository.save(variant);
+
+        return ProductVariantMapper.toResponseDTO(savedVariant);
     }
 
     @Transactional
@@ -95,9 +97,9 @@ public class ProductVariantService {
         Product product = productRepository.findById(request.getProductId())
                 .orElseThrow(() -> new ResourceNotFoundException("Product not found with id " + request.getProductId()));
 
-        //
-        if (request.getSlug() != null) {
-            variant.setSlug(request.getSlug());
+
+        if (request.getSku() != null) {
+            variant.setSku(request.getSku());
         }
         if (request.getPrice() != null) {
             variant.setPrice(request.getPrice());
@@ -110,14 +112,14 @@ public class ProductVariantService {
         }
 
         // Update image if changed
-        if (request.getImageUrl() != null) {
+        if (request.getImages() != null) {
             List<ProductVariantImage> currentImages = variant.getImages();
             if (currentImages == null) {
                 currentImages = new ArrayList<>();
                 variant.setImages(currentImages);
             }
 
-            Set<String> newImageUrls = new HashSet<>(request.getImageUrl());
+            Set<String> newImageUrls = new HashSet<>(request.getImages());
 
             // Identify the image to delete
             List<ProductVariantImage> imagesToRemove = currentImages.stream()

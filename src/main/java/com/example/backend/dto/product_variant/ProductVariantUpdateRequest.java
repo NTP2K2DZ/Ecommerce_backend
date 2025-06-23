@@ -4,22 +4,14 @@ import java.math.BigDecimal;
 import java.util.List;
 
 public class ProductVariantUpdateRequest {
-    private String slug;
     private BigDecimal price;
     private Integer quantity;
     private Long productId;
+    private String sku;
     private List<Long> optionValueIds;
-    private List<String> image_url;
+    private List<String> images;
 
     public ProductVariantUpdateRequest() {}
-
-    public String getSlug() {
-        return slug;
-    }
-
-    public void setSlug(String slug) {
-        this.slug = slug;
-    }
 
     public BigDecimal getPrice() {
         return price;
@@ -45,6 +37,14 @@ public class ProductVariantUpdateRequest {
         this.productId = productId;
     }
 
+    public String getSku() {
+        return sku;
+    }
+
+    public void setSku(String sku) {
+        this.sku = sku;
+    }
+
     public List<Long> getOptionValueIds() {
         return optionValueIds;
     }
@@ -53,11 +53,11 @@ public class ProductVariantUpdateRequest {
         this.optionValueIds = optionValueIds;
     }
 
-    public List<String> getImageUrl() {
-        return image_url;
+    public List<String> getImages() {
+        return images;
     }
 
-    public void setImageUrl(List<String> image_url) {
-        this.image_url = image_url;
+    public void setImages(List<String> images) {
+        this.images = images;
     }
 }

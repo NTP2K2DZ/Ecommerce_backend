@@ -13,13 +13,11 @@ public class ProductVariant {
     private Long id;
 
     @Column(unique = true)
-    private String slug;
+    private String sku;
 
     private BigDecimal price;
 
     private Integer quantity;
-
-    private String image_url;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "product_id", nullable = false)
@@ -29,7 +27,7 @@ public class ProductVariant {
     private List<ProductVariantOptionValue> optionValues = new ArrayList<>();
 
     @OneToMany(mappedBy = "variant", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<ProductVariantImage> images = new ArrayList<>();
+    private List<ProductVariantImage> images;
 
     public ProductVariant() {}
 
@@ -41,12 +39,12 @@ public class ProductVariant {
         this.id = id;
     }
 
-    public String getSlug() {
-        return slug;
+    public String getSku() {
+        return sku;
     }
 
-    public void setSlug(String slug) {
-        this.slug = slug;
+    public void setSku(String sku) {
+        this.sku = sku;
     }
 
     public BigDecimal getPrice() {
@@ -63,14 +61,6 @@ public class ProductVariant {
 
     public void setQuantity(Integer quantity) {
         this.quantity = quantity;
-    }
-
-    public String getImage() {
-        return image_url;
-    }
-
-    public void setImage(String image_url) {
-        this.image_url = image_url;
     }
 
     public Product getProduct() {
