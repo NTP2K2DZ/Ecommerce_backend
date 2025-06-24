@@ -1,4 +1,4 @@
-package com.example.backend.dto;
+package com.example.backend.dto.user;
 
 import jakarta.persistence.Column;
 
@@ -14,6 +14,7 @@ public class UserCreationRequest {
     private String address;
     @Column(name = "created_at", nullable = false, updatable = false, insertable = false)
     private LocalDateTime created_at;
+
     public String getAddress() {
         return address;
     }

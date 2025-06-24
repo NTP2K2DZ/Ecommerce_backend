@@ -1,6 +1,6 @@
 package com.example.backend.controller;
 
-import com.example.backend.dto.UserCreationRequest;
+import com.example.backend.dto.user.UserCreationRequest;
 import com.example.backend.entity.User;
 import com.example.backend.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +25,7 @@ public class UserController {
         return userService.getUser();
     }
     @GetMapping("/{userId}")
-    User getUserByID(@PathVariable("userId") String userId) {
-        return userService.getUser(userId);
+    User getUserByID(@PathVariable("userId") Long userId) {
+        return userService.getUserById(userId);
     }
 }
