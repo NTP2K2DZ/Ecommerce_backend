@@ -1,8 +1,7 @@
 package com.example.backend.controller;
 
-import com.example.backend.dto.product_option_value.ProductOptionValueCreationRequest;
-import com.example.backend.dto.product_option_value.ProductOptionValueResponse;
-import com.example.backend.dto.product_option_value.ProductOptionValueUpdateRequest;
+import com.example.backend.dto.request.product.ProductOptionValueRequest;
+import com.example.backend.dto.response.product.ProductOptionValueResponse;
 import com.example.backend.service.ProductOptionValueService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -36,7 +35,7 @@ public class ProductOptionValueController {
 
     @PostMapping
     public ResponseEntity<ProductOptionValueResponse> createOptionValue(
-            @RequestBody ProductOptionValueCreationRequest request) {
+            @RequestBody ProductOptionValueRequest request) {
 
         ProductOptionValueResponse created = productOptionValueService.createOptionValue(request);
         return ResponseEntity.ok(created);
@@ -45,7 +44,7 @@ public class ProductOptionValueController {
     @PutMapping("/{id}")
     public ResponseEntity<ProductOptionValueResponse> updateOptionValue(
             @PathVariable Long id,
-            @RequestBody ProductOptionValueUpdateRequest request) {
+            @RequestBody ProductOptionValueRequest request) {
         return ResponseEntity.ok(productOptionValueService.updateOptionValue(id, request));
     }
 
