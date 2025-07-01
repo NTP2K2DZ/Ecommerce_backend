@@ -1,55 +1,33 @@
 package com.example.backend.mapper;
-
-import com.example.backend.dto.product_variant.ProductVariantCreationRequest;
-import com.example.backend.dto.product_variant.ProductVariantResponse;
-import com.example.backend.dto.product_variant.ProductVariantResponse.OptionValueDTO;
-import com.example.backend.dto.product_variant.ProductVariantUpdateRequest;
-import com.example.backend.entity.*;
+import com.example.backend.dto.response.product.ProductVariantResponse;
+import com.example.backend.entity.ProductVariant;
+import com.example.backend.entity.ProductVariantImage;
+import com.example.backend.entity.ProductVariantOptionValue;
+import org.mapstruct.*;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
-public class ProductVariantMapper {
-
-    public static ProductVariantResponse toResponseDTO(ProductVariant variant) {
-        return new ProductVariantResponse(
-                variant.getId(),
-                variant.getPrice(),
-                variant.getQuantity(),
-                variant.getSku(),
-                toImageUrlList(variant.getImages()),
-                toOptionValueDTOList(variant.getOptionValues())
-        );
-    }
-
-    public static List<String> toImageUrlList(List<ProductVariantImage> images) {
-        if (images == null) {
-            return List.of();
-        }
+@Mapper(componentModel = "spring")
+public interface ProductVariantMapper {
+    @Mapping(target = "images", source = "images")
+    @Mapping(target = "optionValues", source = "optionValues")
+    ProductVariantResponse toResponseDTO(ProductVariant variant);
+    List<ProductVariantResponse> toResponseList(List<ProductVariant> productVariants);
+    default List<String> map(List<ProductVariantImage> images) {
+        if (images == null) return null;
         return images.stream()
                 .map(ProductVariantImage::getImageUrl)
                 .toList();
     }
 
-    public static List<OptionValueDTO> toOptionValueDTOList(List<ProductVariantOptionValue> optionValues) {
+    default List<ProductVariantResponse.OptionValueDTO> mapOptionValues(List<ProductVariantOptionValue> optionValues) {
         if (optionValues == null) return List.of();
-        return optionValues.stream().map(ov -> new OptionValueDTO(
-                ov.getOptionValue().getId(),
-                ov.getOptionValue().getValue(),
-                ov.getOptionValue().getOption().getName()
-        )).toList();
-    }
-
-    public static List<ProductVariantResponse> toResponseList(List<ProductVariant> variants) {
-        return variants.stream().map(ProductVariantMapper::toResponseDTO).toList();
-    }
-
-    public static ProductVariant toEntityCreate(ProductVariantCreationRequest request, Product product) {
-        ProductVariant variant = new ProductVariant();
-        variant.setSku(request.getSku());
-        variant.setPrice(request.getPrice());
-        variant.setQuantity(request.getQuantity());
-        variant.setProduct(product);
-        return variant;
+        return optionValues.stream()
+                .map(ov -> new ProductVariantResponse.OptionValueDTO(
+                        ov.getOptionValue().getId(),
+                        ov.getOptionValue().getValue(),
+                        ov.getOptionValue().getOption().getName()
+                ))
+                .toList();
     }
 }

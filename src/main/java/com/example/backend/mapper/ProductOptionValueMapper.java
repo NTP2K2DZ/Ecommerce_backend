@@ -1,25 +1,16 @@
 package com.example.backend.mapper;
 
-import com.example.backend.dto.product_option_value.ProductOptionValueCreationRequest;
-import com.example.backend.dto.product_option_value.ProductOptionValueResponse;
-import com.example.backend.dto.product_option_value.ProductOptionValueUpdateRequest;
-import com.example.backend.entity.ProductOption;
+import com.example.backend.dto.response.product.ProductOptionValueResponse;
 import com.example.backend.entity.ProductOptionValue;
+import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 
-public class ProductOptionValueMapper {
+import java.util.List;
 
-    public static ProductOptionValueResponse toResponseDTO (ProductOptionValue productOptionValue) {
-        return new ProductOptionValueResponse(
-                productOptionValue.getId(),
-                productOptionValue.getValue(),
-                productOptionValue.getProductOption().getId()
-        );
-    }
+@Mapper(componentModel = "spring")
+public interface ProductOptionValueMapper {
 
-    public static ProductOptionValue toEntityCreate(ProductOptionValueCreationRequest request, ProductOption option) {
-        ProductOptionValue optionValue = new ProductOptionValue();
-        optionValue.setValue(request.getValue());
-        optionValue.setProductOption(option);
-        return optionValue;
-    }
+    @Mapping(target = "optionId", source = "option.id")
+    ProductOptionValueResponse toResponseDTO(ProductOptionValue productOptionValue);
+    List<ProductOptionValueResponse> toResponseDTOList(List<ProductOptionValue> productOptionValues);
 }

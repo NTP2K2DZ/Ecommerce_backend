@@ -18,7 +18,7 @@ public class ProductOptionValue {
     private ProductOption option;
 
     @OneToMany(mappedBy = "optionValue", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<ProductVariantOptionValue> variantOptionValues = new ArrayList<>();
+    private List<ProductVariantOptionValue> variantOptionValues;
 
     public ProductOptionValue(){}
 
@@ -50,19 +50,12 @@ public class ProductOptionValue {
     public void setValue(String value) {
         this.value = value;
     }
+
     public ProductOption getOption() {
         return option;
     }
 
     public void setOption(ProductOption option) {
         this.option = option;
-    }
-
-    public List<ProductVariantOptionValue> getVariantOptionValues() {
-        return variantOptionValues;
-    }
-
-    public void setVariantOptionValues(List<ProductVariantOptionValue> variantOptionValues) {
-        this.variantOptionValues = variantOptionValues;
     }
 }

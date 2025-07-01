@@ -1,57 +1,29 @@
 package com.example.backend.mapper;
 
-import com.example.backend.dto.category.CategoryResponse;
-import com.example.backend.dto.product.ProductCreationRequest;
-import com.example.backend.dto.product.ProductResponse;
-import com.example.backend.dto.product.ProductUpdateRequest;
+import com.example.backend.dto.response.product.ProductResponse;
 import com.example.backend.entity.*;
+import org.mapstruct.*;
+
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class ProductMapper {
-    public static ProductResponse toResponseDTO(Product product) {
-        return new ProductResponse(
-                product.getId(),
-                product.getName(),
-                product.getSlug(),
-                product.getDescription(),
-                product.getPrice(),
-                product.getCategory().getName(),
-                product.getBrand().getName(),
-                toImageUrlList(product.getImages())
-        );
-    }
+@Mapper(componentModel = "spring")
+public interface ProductMapper {
 
-    public static Product toEntityCreate(ProductCreationRequest request, Category category, Brand brand) {
-        Product product = new Product();
-        product.setName(request.getName());
-        product.setDescription(request.getDescription());
-        product.setPrice(request.getPrice());
-        product.setCategory(category);
-        product.setBrand(brand);
-        return product;
-    }
+    @Mapping(target = "categoryName", source = "category.name")
+    @Mapping(target = "brandName", source = "brand.name")
+    @Mapping(target = "images", source = "images", qualifiedByName = "mapImagesToUrls")
+    ProductResponse toResponseDTO(Product product);
 
-    public static Product toEntityUpdate(ProductUpdateRequest request, Category category) {
-        Product product = new Product();
-        product.setName(request.getName());
-        product.setDescription(request.getDescription());
-        product.setPrice(request.getPrice());
-        product.setCategory(category);
-        return product;
-    }
+    List<ProductResponse> toResponseList(List<Product> products);
 
-    public static List<String> toImageUrlList(List<ProductImage> images) {
+    @Named("mapImagesToUrls")
+    static List<String> mapImagesToUrls(List<ProductImage> images) {
         if (images == null) {
             return List.of();
         }
         return images.stream()
                 .map(ProductImage::getImageUrl)
-                .toList();
+                .collect(Collectors.toList());
     }
-
-    public static List<ProductResponse> toResponseList(List<Product> products) {
-        return products.stream().map(ProductMapper::toResponseDTO).collect(Collectors.toList());
-    }
-
 }

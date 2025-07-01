@@ -1,8 +1,7 @@
 package com.example.backend.controller;
 
-import com.example.backend.dto.product_variant.ProductVariantCreationRequest;
-import com.example.backend.dto.product_variant.ProductVariantResponse;
-import com.example.backend.dto.product_variant.ProductVariantUpdateRequest;
+import com.example.backend.dto.request.product.ProductVariantRequest;
+import com.example.backend.dto.response.product.ProductVariantResponse;
 import com.example.backend.service.ProductVariantService;
 
 import org.springframework.http.ResponseEntity;
@@ -33,13 +32,13 @@ public class ProductVariantController {
     }
 
     @PostMapping
-    public ResponseEntity<ProductVariantResponse> createVariant(@RequestBody ProductVariantCreationRequest request) {
+    public ResponseEntity<ProductVariantResponse> createVariant(@RequestBody ProductVariantRequest request) {
         ProductVariantResponse response = productVariantService.createVariant(request);
         return ResponseEntity.ok(response);
     }
 
     @PutMapping("/{variantId}")
-    public ResponseEntity<ProductVariantResponse> updateVariant(@PathVariable Long variantId, @RequestBody ProductVariantUpdateRequest request) {
+    public ResponseEntity<ProductVariantResponse> updateVariant(@PathVariable Long variantId, @RequestBody ProductVariantRequest request) {
         ProductVariantResponse response = productVariantService.updateVariant(variantId, request);
         return ResponseEntity.ok(response);
     }

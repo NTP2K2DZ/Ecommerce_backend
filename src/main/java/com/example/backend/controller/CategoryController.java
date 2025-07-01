@@ -1,8 +1,7 @@
 package com.example.backend.controller;
 
-import com.example.backend.dto.category.CategoryCreationRequest;
-import com.example.backend.dto.category.CategoryUpdateRequest;
-import com.example.backend.dto.product.ProductResponse;
+import com.example.backend.dto.request.CategoryRequest;
+import com.example.backend.dto.response.product.ProductResponse;
 import com.example.backend.entity.Category;
 import com.example.backend.service.CategoryService;
 import com.example.backend.service.ProductService;
@@ -38,13 +37,13 @@ public class CategoryController {
     }
 
     @PostMapping
-    public ResponseEntity<Category> createCategory(@RequestBody CategoryCreationRequest request) {
+    public ResponseEntity<Category> createCategory(@RequestBody CategoryRequest request) {
         Category createdCategory = categoryService.createCategory(request);
         return ResponseEntity.status(201).body(createdCategory);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Category> updateCategory(@PathVariable Long id, @RequestBody CategoryUpdateRequest request) {
+    public ResponseEntity<Category> updateCategory(@PathVariable Long id, @RequestBody CategoryRequest request) {
         return ResponseEntity.ok(categoryService.updateCategory(id, request));
     }
 

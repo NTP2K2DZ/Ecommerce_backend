@@ -1,7 +1,6 @@
 package com.example.backend.controller;
 
-import com.example.backend.dto.brand.BrandCreationRequest;
-import com.example.backend.dto.brand.BrandUpdateRequest;
+import com.example.backend.dto.request.BrandRequest;
 import com.example.backend.entity.Brand;
 import com.example.backend.service.BrandService;
 import org.springframework.http.ResponseEntity;
@@ -30,13 +29,13 @@ public class BrandController {
     }
 
     @PostMapping
-    public ResponseEntity<Brand> createBrand(@RequestBody BrandCreationRequest request) {
+    public ResponseEntity<Brand> createBrand(@RequestBody BrandRequest request) {
         Brand createdBrand = brandService.createBrand(request);
         return ResponseEntity.ok(createdBrand);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Brand> updateBrand(@PathVariable Long id, @RequestBody BrandUpdateRequest request) {
+    public ResponseEntity<Brand> updateBrand(@PathVariable Long id, @RequestBody BrandRequest request) {
         Brand updatedBrand = brandService.updateBrand(id, request);
         return ResponseEntity.ok(updatedBrand);
     }
