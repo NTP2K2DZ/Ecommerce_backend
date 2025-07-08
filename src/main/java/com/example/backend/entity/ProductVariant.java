@@ -1,5 +1,6 @@
 package com.example.backend.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -15,7 +16,7 @@ public class ProductVariant {
     @Column(unique = true)
     private String sku;
 
-    private BigDecimal price;
+    private Double price;
 
     private Integer quantity;
 
@@ -47,11 +48,11 @@ public class ProductVariant {
         this.sku = sku;
     }
 
-    public BigDecimal getPrice() {
+    public Double getPrice() {
         return price;
     }
 
-    public void setPrice(BigDecimal price) {
+    public void setPrice(Double price) {
         this.price = price;
     }
 

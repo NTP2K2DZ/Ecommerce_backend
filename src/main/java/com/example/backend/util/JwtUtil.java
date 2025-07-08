@@ -47,14 +47,12 @@ public class JwtUtil {
         Date now = new Date();
         System.out.println(jwtExpirationMs);
         Date expiryDate = new Date(now.getTime() + jwtExpirationMs);
-        String token =  Jwts.builder()
+        return Jwts.builder()
                 .setSubject(username)
                 .setIssuedAt(now)
                 .setExpiration(expiryDate)
                 .signWith(getSigningKey(), SignatureAlgorithm.HS256)
                 .compact();
-        System.out.println(token);
-        return token;
     }
 
     public String generateRefreshToken(Authentication authentication) {

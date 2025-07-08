@@ -1,7 +1,6 @@
 package com.example.backend.dto.request;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-
 public class CategoryRequest {
     private String name;
     @JsonProperty("image_url")
@@ -18,12 +17,12 @@ public class CategoryRequest {
         return name;
     }
 
-    public String getImageUrl() {
-        return imageUrl;
-    }
-
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
     }
 
     public void setImageUrl(String imageUrl) {

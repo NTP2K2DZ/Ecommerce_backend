@@ -2,6 +2,9 @@ package com.example.backend.entity;
 
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Table(name = "product_variant_images")
 public class ProductVariantImage {
