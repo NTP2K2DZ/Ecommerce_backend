@@ -9,7 +9,6 @@ public class SlugUtil {
     private static final Pattern NON_LATIN = Pattern.compile("[^\\w-]");
     private static final Pattern WHITESPACE = Pattern.compile("\\s+");
 
-    // Hàm xử lý chính, hỗ trợ thêm hậu tố (ví dụ: ID để tránh trùng)
     private static String generateSlug(String input, String suffix) {
         if (input == null) return "";
 

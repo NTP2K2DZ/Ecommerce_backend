@@ -4,6 +4,7 @@ import com.example.backend.dto.request.LoginRequest;
 import com.example.backend.dto.request.SignupRequest;
 import com.example.backend.dto.response.JwtAuthResponse;
 import com.example.backend.entity.User;
+import com.example.backend.exception.BadRequestException;
 import com.example.backend.exception.ResourceNotFoundException;
 import com.example.backend.reponsitory.UserRepository;
 import com.example.backend.service.AuthService;
@@ -11,10 +12,12 @@ import com.example.backend.service.CustomUserDetailsService;
 import com.example.backend.util.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -44,48 +47,55 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public JwtAuthResponse login(LoginRequest loginRequest) {
-        System.out.println(loginRequest);
-        Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(
-                        loginRequest.getUsername(),
-                        loginRequest.getPassword()
-                )
-        );
-        System.out.println(authentication);
+        try {
+            Authentication authentication = authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(
+                            loginRequest.getUsername(),
+                            loginRequest.getPassword()
+                    )
+            );
 
-        SecurityContextHolder.getContext().setAuthentication(authentication);
+            SecurityContextHolder.getContext().setAuthentication(authentication);
 
-        String accessToken = jwtUtil.generateToken(authentication);
-        String refreshToken = jwtUtil.generateRefreshToken(authentication);
+            String accessToken = jwtUtil.generateToken(authentication);
+            String refreshToken = jwtUtil.generateRefreshToken(authentication);
 
-        JwtAuthResponse response = new JwtAuthResponse();
-        response.setAccessToken(accessToken);
-        response.setRefreshToken(refreshToken);
-        response.setTokenType("Bearer");
-        return response;
+            JwtAuthResponse response = new JwtAuthResponse();
+            response.setAccessToken(accessToken);
+            response.setRefreshToken(refreshToken);
+            response.setTokenType("Bearer");
+            return response;
+
+        } catch (BadCredentialsException e) {
+            throw new BadRequestException("Invalid username or password.");
+        } catch (UsernameNotFoundException e) {
+            throw new BadRequestException("User not found.");
+        }
     }
 
     @Override
     public JwtAuthResponse signUp(SignupRequest signupRequest) {
-        // Kiểm tra username và email đã tồn tại
+        // Check invalid username and password
         if (userRepository.existsByUsername(signupRequest.getUsername())) {
-            throw new IllegalArgumentException("Username is already taken");
+            throw new BadRequestException("Username is already taken");
         }
 
         if (userRepository.existsByEmail(signupRequest.getEmail())) {
-            throw new IllegalArgumentException("Email is already registered");
+            throw new BadRequestException("Email is already registered");
         }
 
-        // Tạo user mới
+        // Create new user
         User newUser = new User();
         newUser.setUsername(signupRequest.getUsername());
         newUser.setPassword(passwordEncoder.encode(signupRequest.getPassword()));
         newUser.setEmail(signupRequest.getEmail());
+        newUser.setFirstName(signupRequest.getFirstName());
+        newUser.setLastName(signupRequest.getLastName());
         newUser.setPhone(signupRequest.getPhone());
 
         userRepository.save(newUser);
 
-        // Đăng nhập tự động sau khi đăng ký
+        // Login auto after register
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         signupRequest.getUsername(),
@@ -93,11 +103,9 @@ public class AuthServiceImpl implements AuthService {
                 )
         );
 
-        // Tạo JWT token
         String accessToken = jwtUtil.generateToken(authentication);
         String refreshToken = jwtUtil.generateRefreshToken(authentication);
 
-        // Tạo response
         JwtAuthResponse response = new JwtAuthResponse();
         response.setAccessToken(accessToken);
         response.setRefreshToken(refreshToken);
@@ -163,9 +171,9 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public User findUserByJwt(String jwt) {
-        String username = jwtUtil.getUsernameFromToken(jwt);
+        String token = jwt.replace("Bearer ", "");
+        String username = jwtUtil.getUsernameFromToken(token);
         return userRepository.findByUsername(username)
                 .orElseThrow(() -> new ResourceNotFoundException("User not found"));
     }
-
 }

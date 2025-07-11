@@ -6,7 +6,7 @@ import java.util.List;
 public class ProductVariantResponse {
     private Long id;
     private String sku;
-    private BigDecimal price;
+    private Double price;
     private Integer quantity;
     private List<String> images;
     private List<OptionValueDTO> optionValues;
@@ -51,7 +51,7 @@ public class ProductVariantResponse {
 
     public ProductVariantResponse() {}
 
-    public ProductVariantResponse(Long id, BigDecimal price, Integer quantity, String sku, List<String> images, List<OptionValueDTO> optionValues) {
+    public ProductVariantResponse(Long id, Double price, Integer quantity, String sku, List<String> images, List<OptionValueDTO> optionValues) {
         this.id = id;
         this.price = price;
         this.quantity = quantity;
@@ -68,11 +68,11 @@ public class ProductVariantResponse {
         this.id = id;
     }
 
-    public BigDecimal getPrice() {
+    public Double getPrice() {
         return price;
     }
 
-    public void setPrice(BigDecimal price) {
+    public void setPrice(Double price) {
         this.price = price;
     }
 

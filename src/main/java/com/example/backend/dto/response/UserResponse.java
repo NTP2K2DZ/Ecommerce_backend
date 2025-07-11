@@ -8,17 +8,15 @@ public class UserResponse {
     private String email;
     private String phone;
     private LocalDate dob;
-    private String address;
     private LocalDateTime createdAt;
 
     public UserResponse() {}
 
-    public UserResponse(String username, String email, String phone, LocalDate dob, String address, LocalDateTime createdAt) {
+    public UserResponse(String username, String email, String phone, LocalDate dob, LocalDateTime createdAt) {
         this.username = username;
         this.email = email;
         this.phone = phone;
         this.dob = dob;
-        this.address = address;
         this.createdAt = createdAt;
     }
 
@@ -33,9 +31,6 @@ public class UserResponse {
 
     public LocalDate getDob() { return dob; }
     public void setDob(LocalDate dob) { this.dob = dob; }
-
-    public String getAddress() { return address; }
-    public void setAddress(String address) { this.address = address; }
 
     public LocalDateTime getCreatedAt() { return createdAt; }
     public void setCreatedAt(LocalDateTime createdAt) { this.createdAt = createdAt; }

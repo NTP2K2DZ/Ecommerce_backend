@@ -27,8 +27,6 @@ public class ProductResponse {
         this.images = images;
     }
 
-    // Getters & Setters
-
     public Long getId() {
         return id;
     }
