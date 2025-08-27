@@ -1,8 +1,16 @@
 package com.example.backend.entity;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "product_variant_option_value")
 public class ProductVariantOptionValue {
     @Id
@@ -16,35 +24,4 @@ public class ProductVariantOptionValue {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "option_value_id", nullable = false)
     private ProductOptionValue optionValue;
-
-    public ProductVariantOptionValue() {}
-
-    public ProductVariantOptionValue(ProductVariant variant, ProductOptionValue optionValue) {
-        this.variant = variant;
-        this.optionValue = optionValue;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public ProductVariant getVariant() {
-        return variant;
-    }
-
-    public void setVariant(ProductVariant variant) {
-        this.variant = variant;
-    }
-
-    public ProductOptionValue getOptionValue() {
-        return optionValue;
-    }
-
-    public void setOptionValue(ProductOptionValue optionValue) {
-        this.optionValue = optionValue;
-    }
 }

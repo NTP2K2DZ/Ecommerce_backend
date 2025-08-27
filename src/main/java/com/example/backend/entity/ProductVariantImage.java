@@ -1,11 +1,17 @@
 package com.example.backend.entity;
 
 import jakarta.persistence.*;
+import lombok.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 @Table(name = "product_variant_images")
 public class ProductVariantImage {
 
@@ -19,35 +25,4 @@ public class ProductVariantImage {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "variant_id", nullable = false)
     private ProductVariant variant;
-
-    public ProductVariantImage() {}
-
-    public ProductVariantImage(String imageUrl, ProductVariant variant) {
-        this.imageUrl = imageUrl;
-        this.variant = variant;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getImageUrl() {
-        return imageUrl;
-    }
-
-    public void setImageUrl(String imageUrl) {
-        this.imageUrl = imageUrl;
-    }
-
-    public ProductVariant getVariant() {
-        return variant;
-    }
-
-    public void setVariant(ProductVariant variant) {
-        this.variant = variant;
-    }
 }

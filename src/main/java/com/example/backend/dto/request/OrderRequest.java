@@ -9,9 +9,10 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class LoginRequest {
+public class OrderRequest {
+    private Long userId;
 
-    private String username;
-
-    private String password;
+    private String receiverName;
+    private String phone;
+    private String note;
 }

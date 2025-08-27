@@ -2,8 +2,16 @@ package com.example.backend.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "cart_item")
 public class CartItem {
 
@@ -22,45 +30,4 @@ public class CartItem {
     private ProductVariant productVariant;
 
     private Integer quantity;
-
-    public CartItem() {}
-
-    public CartItem(Long id, Cart cart, ProductVariant productVariant, Integer quantity) {
-        this.id = id;
-        this.cart = cart;
-        this.productVariant = productVariant;
-        this.quantity = quantity;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public Cart getCart() {
-        return cart;
-    }
-
-    public void setCart(Cart cart) {
-        this.cart = cart;
-    }
-
-    public ProductVariant getProductVariant() {
-        return productVariant;
-    }
-
-    public void setProductVariant(ProductVariant productVariant) {
-        this.productVariant = productVariant;
-    }
-
-    public Integer getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(Integer quantity) {
-        this.quantity = quantity;
-    }
 }

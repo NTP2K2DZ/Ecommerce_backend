@@ -83,9 +83,18 @@ public class ProductServiceImpl implements ProductService {
         product.setPrice(request.getPrice());
         product.setSlug(slug);
 
+//        if (request.getImages() != null) {
+//            List<ProductImage> images = request.getImages().stream()
+//                    .map(url -> new ProductImage(url, product))
+//                    .collect(Collectors.toList());
+//            product.setImages(images);
+//        }
         if (request.getImages() != null) {
             List<ProductImage> images = request.getImages().stream()
-                    .map(url -> new ProductImage(url, product))
+                    .map(url -> ProductImage.builder()
+                            .imageUrl(url)
+                            .product(product)
+                            .build())
                     .collect(Collectors.toList());
             product.setImages(images);
         }
@@ -157,9 +166,16 @@ public class ProductServiceImpl implements ProductService {
                     .map(ProductImage::getImageUrl)
                     .collect(Collectors.toSet());
 
+//            List<ProductImage> imagesToAdd = newImageUrls.stream()
+//                    .filter(url -> !existingUrls.contains(url))
+//                    .map(url -> new ProductImage(url, product))
+//                    .toList();
             List<ProductImage> imagesToAdd = newImageUrls.stream()
                     .filter(url -> !existingUrls.contains(url))
-                    .map(url -> new ProductImage(url, product))
+                    .map(url -> ProductImage.builder()
+                            .imageUrl(url)
+                            .product(product)
+                            .build())
                     .toList();
 
             currentImages.addAll(imagesToAdd);
