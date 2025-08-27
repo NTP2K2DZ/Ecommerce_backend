@@ -39,7 +39,7 @@ public class AddressServiceImpl implements AddressService {
     public AddressResponse getAddressById (Long id) {
         Address address = addressRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Address not found with id " + id));
-        return addressMapper.toResponse(address);
+        return addressMapper.toResponseDTO(address);
     }
 
     @Override
@@ -58,7 +58,7 @@ public class AddressServiceImpl implements AddressService {
         address.setDetailAddress(request.getDetailAddress());
 
         Address saved = addressRepository.save(address);
-        return addressMapper.toResponse(saved);
+        return addressMapper.toResponseDTO(saved);
     }
 
     @Override
@@ -74,7 +74,7 @@ public class AddressServiceImpl implements AddressService {
         address.setWard(request.getWard());
         address.setDetailAddress(request.getDetailAddress());
 
-        return addressMapper.toResponse(addressRepository.save(address));
+        return addressMapper.toResponseDTO(addressRepository.save(address));
     }
 
     @Override

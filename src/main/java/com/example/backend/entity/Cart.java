@@ -2,10 +2,17 @@ package com.example.backend.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.math.BigDecimal;
 import java.util.List;
-
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "cart")
 public class Cart {
@@ -25,49 +32,5 @@ public class Cart {
 
     @Column(name = "total_price", nullable = false)
     private Double totalPrice;
-
-    public Cart(Long id, User user, List<CartItem> cartItems, Double totalPrice) {
-        this.id = id;
-        this.user = user;
-        this.cartItems = cartItems;
-        this.totalPrice = totalPrice;
-    }
-
-    public Cart() {
-        this.totalPrice = 0.0;
-    }
-
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-    public List<CartItem> getCartItems() {
-        return cartItems;
-    }
-
-    public void setCartItems(List<CartItem> cartItems) {
-        this.cartItems = cartItems;
-    }
-
-    public Double getTotalPrice() {
-        return totalPrice;
-    }
-
-    public void setTotalPrice(Double totalPrice) {
-        this.totalPrice = totalPrice;
-    }
 }
 

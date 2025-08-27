@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -74,19 +75,22 @@ public class ProductOptionValueServiceImpl implements ProductOptionValueService 
     @Transactional
     public ProductOptionValueResponse updateOptionValue(Long id, ProductOptionValueRequest request) {
         ProductOptionValue optionValue = productOptionValueRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Product option value not found with id " + id));
+                .orElseThrow(() -> new ResourceNotFoundException(
+                        "Product option value not found with id " + id));
 
-        if (request.getValue() != null && !Objects.equals(request.getValue(), optionValue.getValue())) {
-            optionValue.setValue(request.getValue());
-        }
+        Optional.ofNullable(request.getValue())
+                .filter(v -> !v.equals(optionValue.getValue()))
+                .ifPresent(optionValue::setValue);
 
-        if (request.getOptionId() != null && !Objects.equals(request.getOptionId(), optionValue.getProductOption().getId())) {
-            ProductOption option = productOptionRepository.findById(request.getOptionId())
-                    .orElseThrow(() -> new ResourceNotFoundException("Product option not found with id " + request.getOptionId()));
-            optionValue.setProductOption(option);
+        if (request.getOptionId() != null &&
+                !request.getOptionId().equals(optionValue.getOption().getId())) {
+            throw new IllegalStateException(
+                    "Changing optionId of an existing option value is not allowed. Please create a new option value instead.");
         }
 
         ProductOptionValue updated = productOptionValueRepository.save(optionValue);
+
         return productOptionValueMapper.toResponseDTO(updated);
     }
+
 }

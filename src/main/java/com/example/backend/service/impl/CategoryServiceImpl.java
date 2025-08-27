@@ -50,7 +50,7 @@ public class CategoryServiceImpl implements CategoryService {
 
         Category category = new Category();
         category.setName(name);
-        category.setImageUrl(request.getImageUrl());
+        category.setImage_url(request.getImageUrl());
         category.setSlug(slug);
 
         return categoryRepository.save(category);
@@ -77,7 +77,7 @@ public class CategoryServiceImpl implements CategoryService {
 
         existingCategory.setName(newName);
         existingCategory.setSlug(newSlug);
-        existingCategory.setImageUrl(request.getImageUrl());
+        existingCategory.setImage_url(request.getImageUrl());
 
         return categoryRepository.save(existingCategory);
     }

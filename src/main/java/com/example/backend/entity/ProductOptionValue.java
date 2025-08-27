@@ -1,11 +1,19 @@
 package com.example.backend.entity;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "product_option_value")
 public class ProductOptionValue {
     @Id
@@ -19,43 +27,4 @@ public class ProductOptionValue {
 
     @OneToMany(mappedBy = "optionValue", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ProductVariantOptionValue> variantOptionValues;
-
-    public ProductOptionValue(){}
-
-    public ProductOptionValue(String value, ProductOption option) {
-        this.value = value;
-        this.option = option;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public ProductOption getProductOption() {
-        return option;
-    }
-
-    public void setProductOption(ProductOption option) {
-        this.option = option;
-    }
-
-    public String getValue() {
-        return value;
-    }
-
-    public void setValue(String value) {
-        this.value = value;
-    }
-
-    public ProductOption getOption() {
-        return option;
-    }
-
-    public void setOption(ProductOption option) {
-        this.option = option;
-    }
 }

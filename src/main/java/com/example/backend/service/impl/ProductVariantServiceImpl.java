@@ -70,10 +70,20 @@ public class ProductVariantServiceImpl implements ProductVariantService {
         variant.setQuantity(request.getQuantity());
         variant.setSku(request.getSku());
 
+//        if (request.getImages() != null) {
+//            List<ProductVariantImage> images = request.getImages().stream()
+//                    .map(url -> new ProductVariantImage(url, variant))
+//                    .collect(Collectors.toList());
+//            variant.setImages(images);
+//        }
+
         if (request.getImages() != null) {
             List<ProductVariantImage> images = request.getImages().stream()
-                    .map(url -> new ProductVariantImage(url, variant))
-                    .collect(Collectors.toList());
+                    .map(url -> ProductVariantImage.builder()
+                            .imageUrl(url)
+                            .variant(variant)
+                            .build())
+                    .toList();
             variant.setImages(images);
         }
 
